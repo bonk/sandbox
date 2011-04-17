@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+  var theta =0;
+function init(){
+	tran();
+	draw();
+  setInterval("draw()",100);
+}
+function tran() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  ctx.translate(75,75);
+}
+function draw() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  //ctx.globalCompositeOperation = 'destination-over';
+  ctx.clearRect(0,0,150,150); // canvas を消去
+  ctx.fillRect(-75,-75,150,150);
+  // Create a circular clipping path
+  ctx.beginPath();
+  ctx.arc(0,0,60,0,Math.PI*2,true);
+  ctx.clip();
+
+  // 背景を描く
+  var lingrad = ctx.createLinearGradient(0,-75,0,75);
+  lingrad.addColorStop(0, '#232256');
+  lingrad.addColorStop(1, '#143778');
+
+  ctx.fillStyle = lingrad;
+  ctx.fillRect(-75,-75,150,150);
+
+  // 星を描く
+  for (j=1;j<50;j++){
+    theta = parseInt(theta) + 1;
+    ctx.save();
+    ctx.fillStyle = '#fff';
+    ctx.translate(50*Math.cos(theta* Math.PI / 180),
+                  50*Math.sin(theta* Math.PI / 180));
+    drawStar(ctx,Math.floor(Math.random()*4)+2);
+    ctx.restore();
+  }
+
+}
+function drawStar(ctx,r){
+  ctx.save();
+  ctx.beginPath()
+  ctx.moveTo(r,0);
+  for (i=0;i<9;i++){
+    ctx.rotate(Math.PI/5);
+    if(i%2 == 0) {
+      ctx.lineTo((r/0.525731)*0.200811,0);
+    } else {
+      ctx.lineTo(r,0);
+    }
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="init();">
+    <canvas id="canvas" width="150" height="150"></canvas>
+  </body>
+</html>

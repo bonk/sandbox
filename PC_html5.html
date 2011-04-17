@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <link type="text/css" href="http://jqueryui.com/latest/themes/base/jquery.ui.all.css" rel="stylesheet" />
+  <script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/tags/1.8rc1/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/tags/1.8rc1/ui/jquery-ui.js"></script>
+
+<title>HTML5の&lt;video&gt;タグによる動画再生</title>
+
+<style>
+      body {
+        background: #fff;
+        color:#333; 
+      }
+    #slider {
+    	width: 200px;
+    	margin: 10px;
+    }
+</style>
+<script>
+var video;
+var ratecontrol;
+var playbackRate;
+
+$(function() {
+	$("#slider").slider({
+		value:1.0,
+		min: -3.0,
+		max: 3.0,
+		step: 0.1,
+		slide: function(event, ui) {
+			video.playbackRate = ui.value;
+			playbackRate.innerHTML = ui.value+'倍速';
+		}
+	});
+	$("#playbackRate").val('$' + $("#slider").slider("value"));
+});
+	
+window.onload = function() {
+	video = document.getElementById('video');
+//	video.play();
+	ratecontrol = document.getElementById('ratecontrol');
+	playbackRate = document.getElementById('playbackRate');
+	video.onratechange = function(e) {
+		playbackRate.innerHTML = String(video.playbackRate);
+		ratecontrol.value = video.playbackRate;
+	}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<p>HTML5のvideoタグによる動画再生（Safari/Google Chrome向け）</p>
+
+<video  id="video" controls="true" autoplay poster="http://dl.dropbox.com/u/911270/jisin/img/693930_2095058414.jpg" width="320" height="240">
+<source src="http://dl.dropbox.com/u/911270/%E6%9D%B1%E3%81%93%E3%81%8F%E3%81%B0%E3%82%8B.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' >
+<p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
+
+</video>
+<br />
+    再生速度(-3.0〜3.0)：<span id="playbackRate">1.0倍速</span><div id="slider"></div>
+    <hr  />
+
+<input type="button" onclick="javascript:video.currentTime = 40;" value="40sec え、今回東京と知事選に。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 50;" value="50sec 大地震において被災された方々。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 60;" value="60sec 申し上げますとともにご冥福を。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 70;" value="70sec もありまして出馬表明が遅れて。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 80;" value="80sec 今回の出馬に当たりまして。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 90;" value="90sec 元気にしこの東京から。。"><br>
+<input type="button" onclick="javascript:video.currentTime = 250;" value="250sec 芸人といいますか。。"><br>
+
+</body>
+</html>
